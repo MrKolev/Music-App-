@@ -41,7 +41,11 @@ function detailsViewTemplate(info, isOwner) {
                 html`
             <div class="actionBtn">
                 <a href="/editPage/${info._id}" class="edit">Edit</a>
-                <a @click=${()=>{delInfo(info._id)}} href="/catalog" class="remove">Delete</a>
+                <a @click=${()=>{
+                    if (confirm("Are you sure you want to delete?")) {
+                        delInfo(info._id);
+                        context.page.redirect("/catalog");
+                    }}} class="remove">Delete</a>
             </div>`
                 : ""}
             
