@@ -7,7 +7,7 @@ const endpoint = {
     "logout": "/users/logout",
     "catalog": "/data/albums?sortBy=_createdOn%20desc&distinct=name",
     "petId": (id) => `/data/pets/${id}`,
-    "createPet": "/data/pets",
+    "create": "/data/albums",
 }
 
 
@@ -44,8 +44,8 @@ export async function petInfo(id) {
 export async function petDel(id) {
     return await delRequest(endpoint.petId(id));
 }
-export async function createPet(name, breed, age, weight, image) {
-    return await postRequest(endpoint.createPet, { name, breed, age, weight, image });
+export async function create(name, imgUrl, price, releaseDate, artist, genre, description) {
+    return await postRequest(endpoint.create, { name, imgUrl, price, releaseDate, artist, genre, description });
 }
 export async function editPet(id, name, breed, age, weight, image) {
     return await putRequest(endpoint.petId(id), { name, breed, age, weight, image });
