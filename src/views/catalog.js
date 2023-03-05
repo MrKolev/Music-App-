@@ -1,34 +1,39 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 import { getAllcatalog } from "../api/data.js";
+import { getUserData } from "../utils.js";
 
 
 export async function catalogPageView(ctx) {
-    ctx.render(catalogViewTemplate(await getAllcatalog()));
+    const user = getUserData();
+    ctx.render(catalogViewTemplate(await getAllcatalog(), user));
 
 }
 
-function catalogViewTemplate(data) {
-    return html` <section id="catalog">
-    <h2 class="catalog-title">Services for every animal</h2>
-    <div class="animals-catalog">
-${data.length > 0 ? data.map(x => {
+function catalogViewTemplate(data, user) {
     return html`
-<div class="animals-board">
-    <article class="service-img">
-    <img class="animal-image-cover" src="${x.image}">
-    </article>
-    <h2 class="name">${x.name}</h2>
-    <h3 class="breed">${x.breed}</h3>
-    <div class="action">
-<a class="btn" href="/detailsPage/${x._id}">Details</a>
-</div>
-</div>`})
-: html`
-<div>
-<p class="no-pets">No pets in catalog</p>
-</div>
-</div>
-</section>`
-}
-`
+    <section id="catalogPage">
+            <h1>All Albums</h1>
+            ${data.length > 0 ? data.map(x => {
+        return html`
+                <div class="card-box">
+                <img src="${x.imgUrl}">
+                <div>
+                    <div class="text-center">
+                        <p class="name">Name: ${x.name}</p>
+                        <p class="artist">Artist: ${x.artist}</p>
+                        <p class="genre">Genre: ${x.genre}</p>
+                        <p class="price">Price: $${x.price}</p>
+                        <p class="date">Release Date: ${x.releaseDate}</p>
+                    </div>
+                    ${user ? html`
+                    <div class="btn-group">
+                    <a href="/detailsPage/${x._id}" id="details">Details</a>
+                </div>`
+                : ""}
+                </div>
+            </div>`})
+            : html`
+            <p>No Albums in Catalog!</p>
+            `}
+    </section>`
 }
