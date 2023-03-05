@@ -1,62 +1,76 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
-import { editPet } from "../api/data.js";
+import { editId, getInfoId } from "../api/data.js";
 
 let context = null;
 export async function editPageView(ctx) {
     context = ctx;
-    const petId = ctx.params.id;
-    const infoPet = await petInfo(petId);
+    const idDetail = ctx.params.id;
+    const info = await getInfoId(idDetail);
 
 
-    ctx.render(editViewTemplate(infoPet, onSubmit));
+    ctx.render(editViewTemplate(info, onSubmit));
 
 }
 
-function editViewTemplate(infoPet, onSubmit) {
+function editViewTemplate(info, onSubmit) {
     return html`
-    <section id="editPage">
-    <form @submit = ${onSubmit} class="editForm">
-        <img src="${infoPet.image}">
-        <div>
-            <h2>Edit PetPal</h2>
-            <div class="name">
-                <label for="name">Name:</label>
-                <input name="name" id="name" type="text" value="${infoPet.name}">
-            </div>
-            <div class="breed">
-                <label for="breed">Breed:</label>
-                <input name="breed" id="breed" type="text" value="${infoPet.breed}">
-            </div>
-            <div class="Age">
-                <label for="age">Age:</label>
-                <input name="age" id="age" type="text" value="${infoPet.age}">
-            </div>
-            <div class="weight">
-                <label for="weight">Weight:</label>
-                <input name="weight" id="weight" type="text" value="${infoPet.weight}">
-            </div>
-            <div class="image">
-                <label for="image">Image:</label>
-                <input name="image" id="image" type="text" value="${infoPet.image}">
-            </div>
-            <button class="btn" type="submit">Edit Pet</button>
-        </div>
-    </form>
-</section> `
+    <section class="editPage">
+            <form @submit=${onSubmit}>
+                <fieldset>
+                    <legend>Edit Album</legend>
+
+                    <div class="container">
+                        <label for="name" class="vhide">Album name</label>
+                        <input id="name" name="name" class="name" type="text" value="${info.name}">
+
+                        <label for="imgUrl" class="vhide">Image Url</label>
+                        <input id="imgUrl" name="imgUrl" class="imgUrl" type="text" value="${info.imgUrl}">
+
+                        <label for="price" class="vhide">Price</label>
+                        <input id="price" name="price" class="price" type="text" value="${info.price}">
+
+                        <label for="releaseDate" class="vhide">Release date</label>
+                        <input id="releaseDate" name="releaseDate" class="releaseDate" type="text"
+                            value="${info.releaseDate}">
+
+                        <label for="artist" class="vhide">Artist</label>
+                        <input id="artist" name="artist" class="artist" type="text" value="${info.artist}">
+
+                        <label for="genre" class="vhide">Genre</label>
+                        <input id="genre" name="genre" class="genre" type="text" value="${info.genre}">
+
+                        <label for="description" class="vhide">Description</label>
+                        <textarea name="description" class="description" rows="10"
+                            cols="10">${info.description}</textarea>
+
+                        <button class="edit-album" type="submit">Edit Album</button>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+    `
 }
 
 async function onSubmit(e) {
     e.preventDefault();
     const dataForm = new FormData(e.target);
-    const { name, breed, age, weight, image } = Object.fromEntries(dataForm);
+    const {
+        name,
+        imgUrl,
+        price,
+        releaseDate,
+        artist,
+        genre,
+        description
+    } = Object.fromEntries(dataForm);
 
     try {
-        if (!name || !breed || !age || !weight || !image) {
+        if (!name || !imgUrl || !price || !releaseDate || !artist || !genre || !description) {
             throw new Error("all fields must be filled")
         }
         const id = context.params.id
         
-        await editPet(id, name, breed, age, weight, image);
+        await editId(id, name, imgUrl, price, releaseDate, artist, genre, description );
 
         context.page.redirect("/detailsPage/" + id);
 

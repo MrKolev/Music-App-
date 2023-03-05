@@ -1,5 +1,5 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
-import { getInfoId } from "../api/data.js";
+import { delInfo, getInfoId } from "../api/data.js";
 import { getUserData } from "../utils.js";
 
 let context = null;
@@ -41,7 +41,7 @@ function detailsViewTemplate(info, isOwner) {
                 html`
             <div class="actionBtn">
                 <a href="/editPage/${info._id}" class="edit">Edit</a>
-                <a @click=${()=>{}} class="remove">Delete</a>
+                <a @click=${()=>{delInfo(info._id)}} href="/catalog" class="remove">Delete</a>
             </div>`
                 : ""}
             

@@ -41,13 +41,13 @@ export async function getAllcatalog() {
 export async function getInfoId(id) {
     return await getRequest(endpoint.infoId(id));
 }
-export async function petDel(id) {
-    return await delRequest(endpoint.petId(id));
+export async function delInfo(id) {
+    return await delRequest(endpoint.infoId(id));
 }
 export async function create(name, imgUrl, price, releaseDate, artist, genre, description) {
     return await postRequest(endpoint.create, { name, imgUrl, price, releaseDate, artist, genre, description });
 }
-export async function editPet(id, name, breed, age, weight, image) {
-    return await putRequest(endpoint.petId(id), { name, breed, age, weight, image });
+export async function editId(id, name, imgUrl, price, releaseDate, artist, genre, description) {
+    return await putRequest(endpoint.infoId(id), { name, imgUrl, price, releaseDate, artist, genre, description });
 }
 
