@@ -1,5 +1,5 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
-import { editPet, petInfo } from "../api/data.js";
+import { editPet } from "../api/data.js";
 
 let context = null;
 export async function editPageView(ctx) {

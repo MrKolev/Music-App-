@@ -6,7 +6,7 @@ const endpoint = {
     "register": "/users/register",
     "logout": "/users/logout",
     "catalog": "/data/albums?sortBy=_createdOn%20desc&distinct=name",
-    "petId": (id) => `/data/pets/${id}`,
+    "infoId": (id) => `/data/albums/${id}`,
     "create": "/data/albums",
 }
 
@@ -38,8 +38,8 @@ export function logout() {
 export async function getAllcatalog() {
     return await getRequest(endpoint.catalog);
 }
-export async function petInfo(id) {
-    return await getRequest(endpoint.petId(id));
+export async function getInfoId(id) {
+    return await getRequest(endpoint.infoId(id));
 }
 export async function petDel(id) {
     return await delRequest(endpoint.petId(id));
